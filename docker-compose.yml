@@ -1,12 +1,12 @@
 version: '3'
 services:
-  top-api:
-    image: top-api:latest
-    restart: always
-    ports:
-      - 3005:3000
-    volumes:
-      - ./.env:/opt/app/.env
+#  top-api:
+#    image: ghcr.io/vladyslavkukharchuk/top-api/top-api:develop
+#    restart: always
+#    ports:
+#      - 3005:3000
+#    volumes:
+#      - ./.env:/opt/app/.env
 
 
   mongo:

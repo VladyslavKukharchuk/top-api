@@ -1,11 +1,4 @@
-import {
-  Body,
-  Controller,
-  HttpCode,
-  Post,
-  UsePipes,
-  ValidationPipe,
-} from '@nestjs/common';
+import { Body, Controller, HttpCode, Post } from '@nestjs/common';
 import { AuthDto } from './dto/auth.dto';
 import { AuthService } from './auth.service';
 
@@ -15,13 +8,12 @@ export class AuthController {
 
   @Post('register')
   async register(@Body() body: AuthDto) {
-    return this.authService.createUser(body);
+    return this.authService.register(body);
   }
 
   @HttpCode(200)
   @Post('login')
-  async login(@Body() body: AuthDto) {
-    const { email } = await this.authService.validateUser(body);
-    return this.authService.login(email);
+  async login(@Body() dto: AuthDto) {
+    return this.authService.login(dto);
   }
 }

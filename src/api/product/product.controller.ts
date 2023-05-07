@@ -3,13 +3,12 @@ import {
   Controller,
   Delete,
   Get,
-  HttpCode,
   Param,
   Patch,
   Post,
+  Query,
   UseGuards,
 } from '@nestjs/common';
-import { Product } from './product.model';
 import { FindProductDto } from './dto/find-product.dto';
 import { JwtAuthGuard } from '@common/guards/jwt.guard';
 import { CreateProductDto } from '@api/product/dto/create-product.dto';
@@ -22,8 +21,13 @@ export class ProductController {
   constructor(private readonly productService: ProductService) {}
   @Post('create')
   async create(@Body() dto: CreateProductDto) {
-    console.log(dto);
     return this.productService.create(dto);
+  }
+
+  @Get('find')
+  async find1(@Query() dto: FindProductDto) {
+    dto.limit = +dto.limit;
+    return this.productService.findWithReviews(dto);
   }
 
   @Get(':id')
@@ -31,22 +35,16 @@ export class ProductController {
     return this.productService.findById(id);
   }
 
-  @Delete(':id')
-  async delete(@Param('id', IdValidationPipe) id: string) {
-    return this.productService.delete(id);
-  }
-
   @Patch(':id')
   async patch(
     @Param('id', IdValidationPipe) id: string,
     @Body() body: CreateProductDto,
   ) {
-    return this.productService.updateById(id, body);
+    return this.productService.update(id, body);
   }
 
-  @HttpCode(200)
-  @Post('find')
-  async find(@Body() dto: FindProductDto) {
-    return this.productService.findWithReviews(dto);
+  @Delete(':id')
+  async delete(@Param('id', IdValidationPipe) id: string) {
+    return this.productService.delete(id);
   }
 }
